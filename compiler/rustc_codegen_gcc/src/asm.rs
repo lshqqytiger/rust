@@ -617,6 +617,9 @@ fn reg_to_gcc(reg: InlineAsmRegOrRegClass) -> ConstraintOrRegister {
             InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
                 unreachable!("clobber-only")
             }
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg16) => "h",
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg32) => "r",
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg64) => "l",
             InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => "r",
             InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
             | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::dreg_low16)
@@ -701,6 +704,9 @@ fn dummy_output_type<'gcc, 'tcx>(cx: &CodegenCx<'gcc, 'tcx>, reg: InlineAsmRegCl
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
             unreachable!("clobber-only")
         }
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg16) => cx.type_i16(),
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg32) => cx.type_i32(),
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg64) => cx.type_i64(),
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => cx.type_i32(),
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
         | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg_low16) => cx.type_f32(),
@@ -863,6 +869,7 @@ fn modifier_to_gcc(
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
             unreachable!("clobber-only")
         }
+        InlineAsmRegClass::Amdgpu(_) => None,
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => None,
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
         | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg_low16) => None,

@@ -890,7 +890,13 @@ impl<'a, Ty> FnAbi<'a, Ty> {
                 };
                 aarch64::compute_abi_info(cx, self, kind)
             }
-            "amdgpu" => amdgpu::compute_abi_info(cx, self),
+            "amdgpu" => {
+                if cx.target_spec().adjust_abi(abi, self.c_variadic) == spec::abi::Abi::PtxKernel {
+                    amdgpu::compute_ptx_kernel_abi_info(cx, self)
+                } else {
+                    amdgpu::compute_abi_info(cx, self)
+                }
+            },
             "arm" => arm::compute_abi_info(cx, self),
             "avr" => avr::compute_abi_info(self),
             "loongarch64" => loongarch::compute_abi_info(cx, self),

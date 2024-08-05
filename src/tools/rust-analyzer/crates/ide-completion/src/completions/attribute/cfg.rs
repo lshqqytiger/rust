@@ -57,6 +57,7 @@ pub(crate) fn complete_cfg(acc: &mut Completions, ctx: &CompletionContext<'_>) {
 
 const KNOWN_ARCH: [&str; 20] = [
     "aarch64",
+    "amdgpu",
     "arm",
     "avr",
     "csky",
@@ -81,6 +82,7 @@ const KNOWN_ARCH: [&str; 20] = [
 const KNOWN_ENV: [&str; 7] = ["eabihf", "gnu", "gnueabihf", "msvc", "relibc", "sgx", "uclibc"];
 
 const KNOWN_OS: [&str; 20] = [
+    "amdhsa",
     "cuda",
     "dragonfly",
     "emscripten",
@@ -104,4 +106,4 @@ const KNOWN_OS: [&str; 20] = [
 ];
 
 const KNOWN_VENDOR: [&str; 8] =
-    ["apple", "fortanix", "nvidia", "pc", "sony", "unknown", "wrs", "uwp"];
+    ["apple", "fortanix", "amd", "nvidia", "pc", "sony", "unknown", "wrs", "uwp"];

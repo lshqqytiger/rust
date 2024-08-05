@@ -36,6 +36,7 @@ pub struct Finder {
 // Targets can be removed from this list once they are present in the stage0 compiler (usually by updating the beta compiler of the bootstrap).
 #[cfg(not(feature = "bootstrap-self-test"))]
 const STAGE0_MISSING_TARGETS: &[&str] = &[
+    "amdgcn-amd-amdhsa",
     // just a dummy comment so the list doesn't get onelined
 ];
 
@@ -319,10 +320,10 @@ than building it.
             .entry(*target)
             .or_insert_with(|| Target::from_triple(&target.triple));
 
-        if (target.contains("-none-") || target.contains("nvptx"))
+        if (target.contains("-none-") || target.contains("amdgcn") || target.contains("nvptx"))
             && build.no_std(*target) == Some(false)
         {
-            panic!("All the *-none-* and nvptx* targets are no-std targets")
+            panic!("All the *-none-*, amdgcn*, and nvptx* targets are no-std targets")
         }
 
         // skip check for cross-targets

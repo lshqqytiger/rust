@@ -188,6 +188,7 @@ pub fn use_host_linker(target: TargetSelection) -> bool {
     // of the rustc target
     !(target.contains("emscripten")
         || target.contains("wasm32")
+        || target.contains("amdgcn")
         || target.contains("nvptx")
         || target.contains("fortanix")
         || target.contains("fuchsia")

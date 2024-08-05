@@ -41,6 +41,8 @@ debug_refcell = []
 level = "warn"
 check-cfg = [
     'cfg(bootstrap)',
+    # #[cfg(bootstrap)] amdgpu
+    'cfg(target_arch, values("amdgpu"))',
     'cfg(no_fp_fmt_parse)',
     'cfg(stdarch_intel_sde)',
     # core use #[path] imports to portable-simd `core_simd` crate

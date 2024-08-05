@@ -52,6 +52,8 @@ optimize_for_size = ["core/optimize_for_size"]
 level = "warn"
 check-cfg = [
     'cfg(bootstrap)',
+    # #[cfg(bootstrap)] amdgpu
+    'cfg(target_arch, values("amdgpu"))',
     'cfg(no_global_oom_handling)',
     'cfg(no_rc)',
     'cfg(no_sync)',

@@ -12,6 +12,7 @@ const COMPILE_FLAGS_HEADER: &str = "compile-flags:";
 
 const KNOWN_LLVM_COMPONENTS: &[&str] = &[
     "aarch64",
+    "amdgpu",
     "arm",
     "avr",
     "bpf",

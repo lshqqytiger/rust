@@ -229,6 +229,7 @@ impl<'ll, 'tcx> AsmBuilderMethods<'tcx> for Builder<'_, 'll, 'tcx> {
                 InlineAsmArch::AArch64 | InlineAsmArch::Arm64EC | InlineAsmArch::Arm => {
                     constraints.push("~{cc}".to_string());
                 }
+                InlineAsmArch::Amdgpu => {}
                 InlineAsmArch::X86 | InlineAsmArch::X86_64 => {
                     constraints.extend_from_slice(&[
                         "~{dirflag}".to_string(),
@@ -656,6 +657,9 @@ fn reg_to_llvm(reg: InlineAsmRegOrRegClass, layout: Option<&TyAndLayout<'_>>) ->
             InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
                 unreachable!("clobber-only")
             }
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg16) => "h",
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg32) => "r",
+            InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg64) => "l",
             InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => "r",
             InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
             | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::dreg_low16)
@@ -741,6 +745,7 @@ fn modifier_to_llvm(
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
             unreachable!("clobber-only")
         }
+        InlineAsmRegClass::Amdgpu(_) => None,
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => None,
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
         | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg_low16) => None,
@@ -831,6 +836,9 @@ fn dummy_output_type<'ll>(cx: &CodegenCx<'ll, '_>, reg: InlineAsmRegClass) -> &'
         InlineAsmRegClass::AArch64(AArch64InlineAsmRegClass::preg) => {
             unreachable!("clobber-only")
         }
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg16) => cx.type_i16(),
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg32) => cx.type_i32(),
+        InlineAsmRegClass::Amdgpu(AmdgpuInlineAsmRegClass::reg64) => cx.type_i64(),
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::reg) => cx.type_i32(),
         InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg)
         | InlineAsmRegClass::Arm(ArmInlineAsmRegClass::sreg_low16) => cx.type_f32(),

@@ -1782,6 +1782,7 @@ supported_targets! {
     ("i686-unknown-uefi", i686_unknown_uefi),
     ("aarch64-unknown-uefi", aarch64_unknown_uefi),
 
+    ("amdgcn-amd-amdhsa", amdgcn_amd_amdhsa),
     ("nvptx64-nvidia-cuda", nvptx64_nvidia_cuda),
 
     ("xtensa-esp32-none-elf", xtensa_esp32_none_elf),
@@ -2674,7 +2675,7 @@ impl Target {
             Aapcs { .. } => "arm" == self.arch,
             CCmseNonSecureCall => ["arm", "aarch64"].contains(&&self.arch[..]),
             Win64 { .. } | SysV64 { .. } => self.arch == "x86_64",
-            PtxKernel => self.arch == "nvptx64",
+            PtxKernel => ["amdgpu", "nvptx64"].contains(&&self.arch[..]),
             Msp430Interrupt => self.arch == "msp430",
             RiscvInterruptM | RiscvInterruptS => ["riscv32", "riscv64"].contains(&&self.arch[..]),
             AvrInterrupt | AvrNonBlockingInterrupt => self.arch == "avr",

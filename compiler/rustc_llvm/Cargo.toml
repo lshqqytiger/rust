@@ -10,5 +10,5 @@ libc = "0.2.73"
 
 [build-dependencies]
 # tidy-alphabetical-start
-cc = "1.0.97"
+cc = { git = "https://github.com/lshqqytiger/cc-rs.git", branch = "v1.0.97" }
 # tidy-alphabetical-end

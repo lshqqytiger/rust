@@ -434,6 +434,7 @@ fn ignore_arch() {
     let archs = [
         ("x86_64-unknown-linux-gnu", "x86_64"),
         ("i686-unknown-linux-gnu", "x86"),
+        ("amdgcn-amd-amdhsa", "amdgpu"),
         ("nvptx64-nvidia-cuda", "nvptx64"),
         ("thumbv7m-none-eabi", "thumb"),
     ];
